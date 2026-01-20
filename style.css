@@ -1,0 +1,153 @@
+/* --- RESET & VARIABLES --- */
+:root { 
+    --bg-color: #020202; 
+    --term-bg: #050805; 
+    --primary: #00ff41; 
+    --secondary: #00f3ff; 
+    --accent: #ffb800; 
+    --alert: #ff003c; 
+    --font-stack: 'Share Tech Mono', monospace; 
+}
+
+body { 
+    margin: 0; 
+    height: 100dvh; /* Uses dynamic viewport height for mobile */
+    background: var(--bg-color); 
+    font-family: var(--font-stack); 
+    overflow: hidden; 
+    color: var(--primary); 
+    text-transform: uppercase; 
+}
+
+/* --- EFFECTS --- */
+.scanlines { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2)); 
+    background-size: 100% 4px; 
+    pointer-events: none; z-index: 999; opacity: 0.6; 
+}
+
+.flicker-overlay { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: rgba(0, 255, 65, 0.02); 
+    pointer-events: none; z-index: 998; 
+    animation: flicker 0.15s infinite; 
+}
+@keyframes flicker { 0% { opacity: 0.02; } 50% { opacity: 0.05; } 100% { opacity: 0.02; } }
+
+/* --- MAIN LAYOUT --- */
+.layout { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+    padding: 10px; 
+    box-sizing: border-box; 
+    gap: 10px; 
+}
+
+/* --- MONITOR (TOP) --- */
+.monitor-frame { 
+    flex: 2; 
+    border: 1px solid var(--secondary); 
+    background: #000; 
+    position: relative; 
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.15); 
+    overflow: hidden; 
+    /* Force monitor to never disappear but shrink if needed */
+    min-height: 200px; 
+}
+
+.monitor-header { 
+    position: absolute; top: 0; left: 0; width: 100%; z-index: 20; 
+    padding: 8px 12px; 
+    background: rgba(0, 20, 30, 0.9); 
+    border-bottom: 1px solid var(--secondary); 
+    display: flex; justify-content: space-between; align-items: center; 
+    font-size: 16px; letter-spacing: 1px; color: var(--secondary); 
+    box-sizing: border-box; text-shadow: 0 0 5px var(--secondary); 
+}
+.right-header { display: flex; gap: 20px; }
+
+/* --- TERMINAL (BOTTOM) --- */
+.terminal-frame { 
+    flex: 1; 
+    background: var(--term-bg); 
+    border: 1px solid var(--primary); 
+    padding: 15px; 
+    font-size: 14px; 
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column; 
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.1); 
+    
+    /* SAFETY: Forces terminal to always be at least 150px tall */
+    min-height: 150px; 
+}
+
+#terminal-output { 
+    flex: 1; 
+    overflow-y: auto; 
+    margin-bottom: 10px; 
+    scrollbar-width: none; 
+}
+
+.line { margin-bottom: 3px; line-height: 1.4; text-shadow: 0 0 3px rgba(0, 255, 65, 0.4); word-wrap: break-word; }
+.highlight { color: #fff; text-shadow: 0 0 5px #fff; }
+.cmd-list { color: var(--secondary); display: inline-block; width: 120px; }
+.error { color: var(--alert); } 
+.sys-msg { color: var(--secondary); } 
+.warning { color: var(--accent); }
+.prompt { color: var(--primary); margin-right: 10px; font-weight: bold; }
+
+/* INPUT BAR */
+.input-line { display: flex; align-items: center; width: 100%; }
+#cmd-input { 
+    background: transparent; border: none; color: #fff; 
+    font-family: var(--font-stack); font-size: 16px; 
+    flex: 1; outline: none; text-shadow: 0 0 2px #fff; 
+    text-transform: uppercase; 
+}
+
+/* --- HUD CONTROLS --- */
+.hud-controls { 
+    position: absolute; right: 10px; top: 50px; z-index: 50; 
+    display: flex; flex-direction: column; gap: 8px; 
+}
+.hud-btn { 
+    background: rgba(0, 20, 20, 0.8); border: 1px solid var(--secondary); 
+    color: var(--secondary); font-family: var(--font-stack); 
+    padding: 5px; cursor: pointer; font-size: 11px; 
+    transition: 0.2s; backdrop-filter: blur(2px); width: 80px; text-align: center; 
+}
+.hud-btn:active { background: #fff; color: #000; }
+
+/* --- CANVAS & OVERLAYS --- */
+#network-canvas { width: 100%; height: 100%; position: absolute; top: 0; left: 0; z-index: 1; }
+#screen-overlay { position: absolute; top: 40px; left: 0; width: 100%; height: calc(100% - 40px); z-index: 10; pointer-events: none; overflow: hidden; }
+.data-stream-box { width: 100%; height: 100%; padding: 20px; font-size: 14px; color: var(--secondary); display: flex; flex-direction: column; justify-content: flex-start; background: rgba(0, 10, 10, 0.85); overflow-y: auto; scrollbar-width: none; }
+
+.crypto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 90%; margin: 30px auto; padding: 15px; background: rgba(0, 20, 0, 0.9); border: 1px solid var(--primary); }
+.coin-card { display: flex; justify-content: space-between; border-bottom: 1px solid #333; padding: 5px 0; }
+.up { color: var(--primary); } .down { color: var(--alert); }
+
+/* SCAN EFFECT */
+.scan-line { width: 100%; height: 5px; background: var(--primary); box-shadow: 0 0 15px var(--primary); position: absolute; top: 0; animation: scanDown 2s infinite linear; }
+@keyframes scanDown { 0% { top: -10%; } 100% { top: 110%; } }
+
+/* --- MOBILE SPECIFIC FIXES --- */
+@media (max-width: 600px) {
+    .layout { gap: 5px; }
+    .monitor-frame { flex: 1; min-height: 35vh; } /* Monitor takes 35% of screen minimum */
+    .terminal-frame { flex: 1.5; min-height: 30vh; } /* Terminal takes more space for keyboard */
+    
+    .hud-controls { top: 45px; right: 5px; gap: 4px; }
+    .hud-btn { width: 60px; font-size: 10px; padding: 6px 2px; }
+    
+    .crypto-grid { grid-template-columns: 1fr; gap: 5px; font-size: 12px; }
+    
+    /* Hide clock on phone to save space */
+    #system-clock { display: none; }
+    
+    /* Prevent iOS Zoom */
+    input[type="text"] { font-size: 16px !important; }
+}

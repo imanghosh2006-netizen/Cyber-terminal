@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <title>CYBERDECK_V15</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="scanlines"></div>
+    <div class="flicker-overlay"></div>
+
+    <div class="layout">
+        <div class="monitor-frame">
+            <div class="monitor-header">
+                <span id="header-title">SYSTEM_IDLE</span>
+                <div class="right-header">
+                    <span id="system-clock">00:00:00</span>
+                    <span class="status-indicator">● ONLINE</span>
+                </div>
+            </div>
+            
+            <div class="hud-controls">
+                <button class="hud-btn" onclick="hudPurge()">[PURGE]</button>
+                <button class="hud-btn" onclick="hudBoost()">[BOOST]</button>
+                <button class="hud-btn" onclick="hudLock()">[LOCK]</button>
+                <button class="hud-btn" onclick="hudScan()">[SCAN]</button>
+                <button class="hud-btn" onclick="hudDecrypt()">[DECRYPT]</button>
+            </div>
+
+            <canvas id="network-canvas"></canvas>
+            <div id="screen-overlay"></div>
+        </div>
+
+        <div class="terminal-frame" onclick="focusInput()">
+            <div id="terminal-output"></div>
+            <div class="input-line">
+                <span class="prompt">admin@node_01:~#</span>
+                <input type="text" id="cmd-input" autocomplete="off" spellcheck="false" enterkeyhint="go">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
