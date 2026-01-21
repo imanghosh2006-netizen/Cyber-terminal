@@ -36,8 +36,3 @@ Type `help` in the terminal to see all commands. Some fun ones to try:
 | `bio` | DNA Sequencing simulation |
 | `cryp` | Crypto market ticker |
 
-## 📦 Installation
-
-1. Clone the repo:
-   ```bash
-   git clone [https://github.com/yourusername/cyber-terminal.git](https://github.com/yourusername/cyber-terminal.git)
